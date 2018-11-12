@@ -1,0 +1,294 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Practica 4 Convolucion y correlacion</title><meta name="generator" content="MATLAB 8.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-11-12"><meta name="DC.source" content="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Practica 4 Convolucion y correlacion</h1><!--introduction--><p>Grupo: 2TV2</p><p>Materia: Se&ntilde;ales y Sistemas</p><p>Alumnos:</p><p><i>Espinosa Salas Emmanuel</i></p><p><i>Sandoval Palma Miguel Angel</i></p><p><i>Villegas Fraga Hamlet Ismael</i></p><p>Profesor: Dr. Rafael Mart&iacute;nez Mart&iacute;nez</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Objetivos</a></li><li><a href="#3">Introducci&oacute;n</a></li><li><a href="#4">Ejercicio 1</a></li><li><a href="#6">Ejercicio 2</a></li><li><a href="#7">Ejercicio 3</a></li><li><a href="#9">Ejercicio 4</a></li><li><a href="#10">Referencias</a></li></ul></div><h2>Objetivos<a name="1"></a></h2><div><ol><li>Conocer m&eacute;todos b&aacute;sicos de integraci&oacute;n num&eacute;rica</li><li>Simular convoluciones y correlaciones de se&ntilde;ales continuas</li><li>Manipulaci&oacute;n de instrucciones en MATLAB</li></ol></div><h2>Introducci&oacute;n<a name="3"></a></h2><p>El an&aacute;lisis num&eacute;rico es una rama de las matem&aacute;ticas que mediante el uso de algoritmos iterativos, obtiene soluciones num&eacute;ricas a problemas en los cuales la matem&aacute;tica anal&iacute;tica resulta poco eficiente y en consecuencia no puede ofrecer una soluci&oacute;n.</p><p>Por lo general los m&eacute;todos num&eacute;ricos se componen de un n&uacute;mero de pasos finitos que se ejecutan de manera l&oacute;gica, mejorando aproximaciones iniciales a cierta cantidad, tal como la ra&iacute;z de una ecuaci&oacute;n, hasta que se cumple con cierta cota de error.</p><p><b>Regla del Trapecio</b></p><p>En an&aacute;lisis num&eacute;rico, la regla del trapecio es un m&eacute;todo de integraci&oacute;n num&eacute;rica, el m&eacute;todo se basa en aproximar el valor de la integral de f(x) por el de la funci&oacute;n lineal que pasa a trav&eacute;s de los puntos (a,f(a)) y (b,f(b)). La integral de &eacute;sta es igual al &aacute;rea del trapecio bajo la gr&aacute;fica de la funci&oacute;n lineal. La aproximaci&oacute;n del &aacute;rea se calcula como:</p><p><b>Regla de Simpson 1/3</b></p><p>Este m&eacute;todo consiste en la aproximaci&oacute;n del c&aacute;lculo del &aacute;rea plana bajo una curva utilizando trapecios curvil&iacute;neos a partir de una interpolaci&oacute;n con una funci&oacute;n cuadr&aacute;tica. Requiere el conocimiento de tres puntos equiespaciados: los extremos y un punto central. Aplicando esta expresi&oacute;n utilizando mayor cantidad de puntos intermedios, puede definirse la variante compuesta del m&eacute;todo para el cual se utilizan N puntos que corresponden a n = N-1 subintervalos. Este caso requiere que la cantidad de subintervalos sean pares. Por lo tanto, se define un valor h que corresponde a el ancho del subintervalo o el paso que hay entre puntos. Se calcula como h = (b-1)/n. La aproximaci&oacute;n del &aacute;rea se puede calcular</p><p><b>Regla de Simpson 3/8</b></p><p>Este m&eacute;todo es similar a la regla de 1/3 de Simpson, con la excepci&oacute;n que se determina el &aacute;rea bajo una par&aacute;bola de tercer grado que conecta 4 puntos sobre una curva dada. Igual que el caso de Simpson 1/3, se utiliza un polinomio de interpolaci&oacute;n de Lagrange, y usando el m&eacute;todo de integraci&oacute;n por partes se llega a la siguiente f&oacute;rmula:</p><p><b>Cuadratura de Gauss</b></p><p>Es una aproximaci&oacute;n de una integral definida de una funci&oacute;n que selecciona los puntos de la evaluaci&oacute;n de manera &oacute;ptima y no en una forma igualmente espaciada, constru&iacute;da para dar el resultado de un polinomio de grado 2n-1 o menos, lo cu&aacute;l da origen a la siguiente f&oacute;rmula:</p><p>Regla compuesta del trapecio</p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq10314155010145192452.png" alt="$$\int_a^b f(x)dx = \frac{h}{2}\cdot[f(a)+2 \cdot \sum_{j=1}^{n-1} \cdot&#xA;f(xj)+f(b)]-\frac{b-a}{12}\cdot h^{2}\cdot f^{''}(u),  u\in(a,b) $$"></p><p>Donde: n = n&uacute;mero de subintervalos, h = <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq07521692135320970340.png" alt="$$ \frac{b-a}{n} $$">, <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq07272030303603323232.png" alt="$$ xj = a + (j \cdot h) $$">  , j = 0,1,2...,n</p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq06014868384206485226.png" alt="$$Ejemplo:$$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq10834483080549453494.png" alt="$$n = 10, h =  \frac{1-1}{10} = 0.2, x_{0} = -1,x_{1} = -0.8, x_{2} = -0.6...x_{9} = 0.8, x_{10} = 1$$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq16243380035005613752.png" alt="$$ \int_{-1}^{1} e^{-x^{2}}dx = \frac{0.2}{2} \cdot [e^{-1} + 2 \cdot \sum_{j=1}^{n-1} \cdot&#xA;e^{-(xj)^{2}} + e^{-1}]-\frac{2}{12} \cdot (0.2)^{2} \cdot [-2 \cdot e^{-u^{2}} \cdot (1-2 \cdot (u^{2}))] $$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq11329968309773191357.png" alt="$$= 1.4887+0.0133 \cdot e^{-u^{2}} \cdot (1-2 \cdot u^{2}), -1<u<1$$"></p><p>Regla compuesta de Simpson</p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq10554932641989721939.png" alt="$$\int_a^b f(x)dx = \frac{h}{3}\cdot[f(a)+2 \cdot \sum_{j=1}^{\frac{n}{2}-1} \cdot&#xA;f(x_2 j)+ 4 \cdot \sum_{j=1}^{\frac{n}{2}} \cdot f(x_2 j) + f(b)]-\frac{b-a}{180}\cdot h^{4}\cdot f^{a}(u),  u\in(a,b) $$"></p><p>Donde: n = n&uacute;mero par de subintervalos, <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq04521886064395093880.png" alt="$$h =  \frac{b-a}{n}$">$ ,  <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq13897969314950726298.png" alt="$$xj = a + (j \cdot h) , j = 0,1,2...,n $$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq06014868384206485226.png" alt="$$Ejemplo:$$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq10834483080549453494.png" alt="$$n = 10, h =  \frac{1-1}{10} = 0.2, x_{0} = -1,x_{1} = -0.8, x_{2} = -0.6...x_{9} = 0.8, x_{10} = 1$$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq12059857901455018636.png" alt="$$ \int_{-1}^{1} e^{-x^{2}}dx = \frac{0.2}{3} \cdot [e^{-1} + 2 \cdot \sum_{j=1}^{4} \cdot&#xA;e^{-(x_2 j)^{2}} + 4 \cdot \sum_{j=1}^{5} \cdot e^{-(x_2 j-1)^{2}} + e^{-1}]-\frac{2}{180} \cdot (0.2)^{4}&#xA;\cdot [-4 \cdot e^{-u^{4}} \cdot (-4 \cdot u^{4}+(2 \cdot u^{2}-3))] $$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq17801923153921455834.png" alt="$$= 1.4936+0.000071 \cdot e^{-u^{2}} \cdot (-4 \cdot u^{4}+2 \cdot u^{2}-3), -1<u<1$$"></p><p>Cuadratura gaussiana</p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq14290556105664664094.png" alt="$$ \int_a^b f(x)dx = \int_{-1}^{1} (f(\frac{(b-a) \cdot t + b+a}{2}))&#xA;\cdot (\frac{b-a}{2})dt $$"></p><p>Donde: <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq11205502773646067779.png" alt="$$ t = \frac{2 \cdot x -a - b}{b-a} $$">, <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq02357473311986872922.png" alt="$$ x = \frac{1}{2} \cdot ((b-a)  \cdot t + a+b) $$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq06014868384206485226.png" alt="$$Ejemplo:$$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq06890408903226056605.png" alt="$$\int_{-1}^{1} e^{-x^{2}}dx \approx e^{0.577350^{2}} + e^{-(0.577350)^{2}} \approx 1.4331 , (n = 2)$$"></p><p><img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq06853666965465553360.png" alt="$$ \int_{-1}^{1} e^{-x^{2}}dx \approx 0.555555 \cdot e^{-(0.774596)^{2}} + 0.888888+ 0.555555 \cdot e^{-(0.774596)^{2}} \approx 1.4986, (n=3) $$"></p><h2>Ejercicio 1<a name="4"></a></h2><p><img vspace="5" hspace="5" src="ej14.png" alt=""> </p><p>Por el metodo analitico nosotros sabemos que el producto de la convolucion  <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq16342655556185011296.png" alt="$$ p(t) = f(t) * g(t) $$"></p><p><img vspace="5" hspace="5" src="CodeCogsEqn.gif" alt=""> </p><p><img vspace="5" hspace="5" src="ft1.png" alt=""> </p><p><img vspace="5" hspace="5" src="gt1.png" alt=""> </p><p><img vspace="5" hspace="5" src="con1.png" alt=""> </p><p><img vspace="5" hspace="5" src="pr041.png" alt=""> </p><h2>Ejercicio 2<a name="6"></a></h2><p><img vspace="5" hspace="5" src="eje24.png" alt=""> </p><p>Por el metodo analitico nosotros sabemos que el producto de la convolucion  <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq16342655556185011296.png" alt="$$ p(t) = f(t) * g(t) $$"></p><p><img vspace="5" hspace="5" src="ejer2.png" alt=""> </p><p><img vspace="5" hspace="5" src="ft2.png" alt=""> </p><p><img vspace="5" hspace="5" src="gt2.png" alt=""> </p><p><img vspace="5" hspace="5" src="con2.png" alt=""> </p><p><img vspace="5" hspace="5" src="pr042.png" alt=""> </p><h2>Ejercicio 3<a name="7"></a></h2><p>Para el PR06 reporte la grafica de la simulaci&oacute;n n&uacute;merica de la correlaci&oacute;n y compare con el resultado an&aacute;litico que obtuvo para el problema e), esto es, su pr&aacute;ctica tendr&aacute; que incluir una llamada a la funci&oacute;nn convconm y posteriormente se tendr&aacute; que mostrar (mediante el Publish) la gr&aacute;fica tanto de las se&ntilde;ales involucradas como el resultado de su correlaci&oacute;n, y en esta &uacute;ltima graficara su resultado analitico, se tendr&aacute; que incluir el resultado analitico.</p><p><img vspace="5" hspace="5" src="eje34.PNG" alt=""> </p><p><i>El resultado analitico nos indica que la convolucion queda como se muestra en siguiente expresion</i></p><p><img vspace="5" hspace="5" src="correlacion1.png" alt=""> </p><p><img vspace="5" hspace="5" src="ft3.png" alt=""> </p><p><img vspace="5" hspace="5" src="gt3.png" alt=""> </p><p><img vspace="5" hspace="5" src="pr06e.png" alt=""> </p><p><img vspace="5" hspace="5" src="pr061.png" alt=""> </p><h2>Ejercicio 4<a name="9"></a></h2><p>Para el PR06 reporte la grafica de la simulaci&oacute;n n&uacute;merica de la correlaci&oacute;n y compare con el resultado an&aacute;litico que obtuvo para el problema f), esto es, su pr&aacute;ctica tendr&aacute; que incluir una llamada a la funci&oacute;n convconm y posteriormente se tendr&aacute; que mostrar (mediante el Publish) la gr&aacute;fica tanto de las se&ntilde;ales involucradas como el resultado de su correlaci&oacute;n, y en esta &uacute;ltima graficara su resultado analitico, se tendr&aacute; que incluir el resultado analitico.</p><p><img vspace="5" hspace="5" src="eje44a.png" alt=""> </p><p><img vspace="5" hspace="5" src="eje44c.png" alt=""> </p><p><img vspace="5" hspace="5" src="eje44b.png" alt=""> </p><p><b>El resultado analitico de <img src="SySPrac4EmmanuelEspinosa_HamletVillegas_MiguelSandoval_eq05101584256592497682.png" alt="$$ r_{x_0x_1}(t) $$"></b></p><p><img vspace="5" hspace="5" src="correlacion2.png" alt=""> </p><p><img vspace="5" hspace="5" src="ft4.png" alt=""> </p><p><img vspace="5" hspace="5" src="gt4.png" alt=""> </p><p><img vspace="5" hspace="5" src="cor2.png" alt=""> </p><p><img vspace="5" hspace="5" src="pr062.png" alt=""> </p><h2>Referencias<a name="10"></a></h2><div><ol><li>Canal de Mates y As&iacute; <a href="https://www.youtube.com/channel/UCuB5RVxI1tHwVvPJfHisPHQ">enlace</a></li><li>Documentacion de MATLAB</li></ol></div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Practica 4 Convolucion y correlacion
+%
+% Grupo: 2TV2
+%
+% Materia: Señales y Sistemas
+%
+% Alumnos:
+% 
+% _Espinosa Salas Emmanuel_
+%
+% _Sandoval Palma Miguel Angel_
+%
+% _Villegas Fraga Hamlet Ismael_ 
+%
+% Profesor: Dr. Rafael Martínez Martínez
+%
+%
+%% Objetivos
+%%
+%
+% # Conocer métodos básicos de integración numérica
+% # Simular convoluciones y correlaciones de señales continuas
+% # Manipulación de instrucciones en MATLAB
+% 
+%% Introducción
+%
+% El análisis numérico es una rama de las matemáticas que mediante el uso
+% de algoritmos iterativos, obtiene soluciones numéricas a problemas en los
+% cuales la matemática analítica resulta poco eficiente y en consecuencia
+% no puede ofrecer una solución.
+%
+% Por lo general los métodos numéricos se componen de un número de pasos
+% finitos que se ejecutan de manera lógica, mejorando aproximaciones
+% iniciales a cierta cantidad, tal como la raíz de una ecuación, hasta que
+% se cumple con cierta cota de error.
+%
+% *Regla del Trapecio*
+%
+% En análisis numérico, la regla del trapecio es un método de integración
+% numérica, el método se basa en aproximar el valor de la integral de f(x)
+% por el de la función lineal que pasa a través de los puntos (a,f(a)) y 
+% (b,f(b)). La integral de ésta es igual al área del trapecio bajo la
+% gráfica de la función lineal. La aproximación del área se calcula como:
+%
+% *Regla de Simpson 1/3*
+%
+% Este método consiste en la aproximación del cálculo del área plana bajo
+% una curva utilizando trapecios curvilíneos a partir de una interpolación
+% con una función cuadrática. Requiere el conocimiento de tres puntos
+% equiespaciados: los extremos y un punto central. Aplicando esta expresión
+% utilizando mayor cantidad de puntos intermedios, puede definirse la
+% variante compuesta del método para el cual se utilizan N puntos que
+% corresponden a n = N-1 subintervalos. Este caso requiere que la cantidad
+% de subintervalos sean pares. Por lo tanto, se define un valor h que
+% corresponde a el ancho del subintervalo o el paso que hay entre puntos.
+% Se calcula como h = (b-1)/n. La aproximación del área se puede calcular
+% 
+% *Regla de Simpson 3/8*
+% 
+% Este método es similar a la regla de 1/3 de Simpson, con la excepción que
+% se determina el área bajo una parábola de tercer grado que conecta 4
+% puntos sobre una curva dada. Igual que el caso de Simpson 1/3, se utiliza
+% un polinomio de interpolación de Lagrange, y usando el método de
+% integración por partes se llega a la siguiente fórmula:
+%
+% *Cuadratura de Gauss*
+%
+% Es una aproximación de una integral definida de una función que
+% selecciona los puntos de la evaluación de manera óptima y no en una
+% forma igualmente espaciada, construída para dar el resultado de un
+% polinomio de grado 2n-1 o menos, lo cuál da origen a la siguiente
+% fórmula:
+%
+% Regla compuesta del trapecio
+%
+% $$\int_a^b f(x)dx = \frac{h}{2}\cdot[f(a)+2 \cdot \sum_{j=1}^{n-1} \cdot
+% f(xj)+f(b)]-\frac{b-a}{12}\cdot h^{2}\cdot f^{''}(u),  u\in(a,b) $$ 
+%
+% Donde: n = número de subintervalos, h = $$ \frac{b-a}{n} $$, $$ xj = a + (j \cdot h) $$  , j = 0,1,2...,n 
+%
+% $$Ejemplo:$$
+%
+% $$n = 10, h =  \frac{1-1}{10} = 0.2, x_{0} = -1,x_{1} = -0.8, x_{2} = -0.6...x_{9} = 0.8, x_{10} = 1$$
+%
+% $$ \int_{-1}^{1} e^{-x^{2}}dx = \frac{0.2}{2} \cdot [e^{-1} + 2 \cdot \sum_{j=1}^{n-1} \cdot 
+% e^{-(xj)^{2}} + e^{-1}]-\frac{2}{12} \cdot (0.2)^{2} \cdot [-2 \cdot e^{-u^{2}} \cdot (1-2 \cdot (u^{2}))] $$ 
+% 
+% $$= 1.4887+0.0133 \cdot e^{-u^{2}} \cdot (1-2 \cdot u^{2}), -1<u<1$$
+%
+% Regla compuesta de Simpson
+%
+% $$\int_a^b f(x)dx = \frac{h}{3}\cdot[f(a)+2 \cdot \sum_{j=1}^{\frac{n}{2}-1} \cdot
+% f(x_2 j)+ 4 \cdot \sum_{j=1}^{\frac{n}{2}} \cdot f(x_2 j) + f(b)]-\frac{b-a}{180}\cdot h^{4}\cdot f^{a}(u),  u\in(a,b) $$ 
+%
+% Donde: n = número par de subintervalos, $$h =  \frac{b-a}{n}$$ ,  $$xj = a + (j
+% \cdot h) , j = 0,1,2...,n $$
+%
+% $$Ejemplo:$$
+%
+% $$n = 10, h =  \frac{1-1}{10} = 0.2, x_{0} = -1,x_{1} = -0.8, x_{2} = -0.6...x_{9} = 0.8, x_{10} = 1$$
+%
+% $$ \int_{-1}^{1} e^{-x^{2}}dx = \frac{0.2}{3} \cdot [e^{-1} + 2 \cdot \sum_{j=1}^{4} \cdot 
+% e^{-(x_2 j)^{2}} + 4 \cdot \sum_{j=1}^{5} \cdot e^{-(x_2 j-1)^{2}} + e^{-1}]-\frac{2}{180} \cdot (0.2)^{4}
+% \cdot [-4 \cdot e^{-u^{4}} \cdot (-4 \cdot u^{4}+(2 \cdot u^{2}-3))] $$ 
+% 
+% $$= 1.4936+0.000071 \cdot e^{-u^{2}} \cdot (-4 \cdot u^{4}+2 \cdot u^{2}-3), -1<u<1$$
+%
+% Cuadratura gaussiana
+%
+% $$ \int_a^b f(x)dx = \int_{-1}^{1} (f(\frac{(b-a) \cdot t + b+a}{2}))
+% \cdot (\frac{b-a}{2})dt $$
+%
+% Donde: $$ t = \frac{2 \cdot x -a - b}{b-a} $$, $$ x = \frac{1}{2} \cdot
+% ((b-a)  \cdot t + a+b) $$
+%
+% $$Ejemplo:$$
+%
+% $$\int_{-1}^{1} e^{-x^{2}}dx \approx e^{0.577350^{2}} + e^{-(0.577350)^{2}} \approx 1.4331 , (n = 2)$$
+%
+% $$ \int_{-1}^{1} e^{-x^{2}}dx \approx 0.555555 \cdot e^{-(0.774596)^{2}} + 0.888888+ 0.555555 \cdot e^{-(0.774596)^{2}} \approx 1.4986, (n=3) $$
+%
+%% Ejercicio 1
+%
+%%
+% 
+% <<ej14.png>>
+%
+% Por el metodo analitico nosotros sabemos que el producto de la
+% convolucion  $$ p(t) = f(t) * g(t) $$
+%
+% 
+% <<CodeCogsEqn.gif>>
+% 
+% <<ft1.png>>
+% 
+% 
+% <<gt1.png>>
+% 
+% 
+% <<con1.png>>
+% 
+% 
+% <<pr041.png>>
+% 
+%% Ejercicio 2
+%
+% 
+% <<eje24.png>>
+%
+% Por el metodo analitico nosotros sabemos que el producto de la
+% convolucion  $$ p(t) = f(t) * g(t) $$
+%
+% 
+% <<ejer2.png>>
+%
+%
+% <<ft2.png>>
+% 
+% <<gt2.png>>
+% 
+% 
+% <<con2.png>>
+% 
+% 
+% <<pr042.png>>
+% 
+
+%% Ejercicio 3
+% Para el PR06 reporte la grafica de la simulación númerica de la correlación y compare con el resultado análitico que obtuvo para el problema e), esto es, su práctica tendrá que incluir una llamada a la funciónn convconm y posteriormente se tendrá que mostrar (mediante el Publish)
+% la gráfica tanto de las señales involucradas como el resultado de su correlación, y en esta última graficara su resultado analitico, se tendrá que incluir el resultado analitico.
+%
+% 
+% <<eje34.PNG>>
+%
+% _El resultado analitico nos indica que la convolucion queda como se muestra en siguiente expresion_
+%%
+%
+% <<correlacion1.png>>
+%
+% <<ft3.png>>
+% 
+% <<gt3.png>>
+%  
+% <<pr06e.png>>
+% 
+% 
+% <<pr061.png>>
+%
+
+%% Ejercicio 4
+%
+% Para el PR06 reporte la grafica de la simulación númerica de la correlación y compare con el resultado
+% análitico que obtuvo para el problema f), esto es, su práctica tendrá que incluir una llamada a la función
+% convconm y posteriormente se tendrá que mostrar (mediante el Publish) la gráfica tanto de las señales involucradas
+% como el resultado de su correlación, y en esta última graficara su resultado analitico, se tendrá que incluir el resultado analitico.
+%
+% 
+% <<eje44a.png>>
+% 
+% 
+% <<eje44c.png>>
+% 
+% 
+% <<eje44b.png>>
+%
+% *El resultado analitico de $$ r_{x_0x_1}(t) $$*
+%
+% 
+% <<correlacion2.png>>
+% 
+% <<ft4.png>>
+% 
+% <<gt4.png>>
+%  
+% <<cor2.png>>
+% 
+% 
+% <<pr062.png>>
+%
+%% Referencias 
+% # Canal de Mates y Así <https://www.youtube.com/channel/UCuB5RVxI1tHwVvPJfHisPHQ enlace>
+% # Documentacion de MATLAB
+##### SOURCE END #####
+--></body></html>
